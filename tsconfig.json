@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es6",
+        "module": "esnext",
+        "target": "esnext",
         "noImplicitAny": false,
         "sourceMap": false,
-        "noEmitOnError": true,
+        "noEmitOnError": false,
 		"outDir": "generated"
     }
 }
