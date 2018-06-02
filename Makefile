@@ -1,5 +1,5 @@
 SOURCES := \
-	generated/background.js \
+	generated/*.js \
 	manifest.json
 
 pinboard-simple.zip: $(SOURCES)
