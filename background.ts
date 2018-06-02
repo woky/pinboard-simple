@@ -12,7 +12,6 @@ function doAdd(tab: chrome.tabs.Tab) {
 	let tabTitle = encodeURIComponent(tab.title);
 	let redirUrl = `https://pinboard.in/add?next=same&url=${tabUrl}&title=${tabTitle}`;
 	let code = `document.location = '${redirUrl}'`;
-	console.log(redirUrl);
 	chrome.tabs.executeScript(tab.id, { code: code });
 }
 
@@ -21,7 +20,6 @@ function doReadLater(tab: chrome.tabs.Tab) {
 	let tabTitle = encodeURIComponent(tab.title);
 	let redirUrl = `https://pinboard.in/add?later=yes&noui=yes&url=${tabUrl}&title=${tabTitle}`;
 	let code = `open('${redirUrl}')`;
-	console.log(redirUrl);
 	chrome.tabs.executeScript(tab.id, { code: code });
 }
 

@@ -1,8 +1,14 @@
 {
 	"manifest_version": 2,
 	"name": "Pinboard Simple",
-	"version": "1.0",
-	"description": "Bookmarking to Pinboard",
+	"version": "0.1",
+	"description": "Bookmark to Pinboard with keyboard",
+
+	"applications": {
+		"gecko": {
+			"id": "pinboard-simple@example.com"
+		}
+	},
 
 	"permissions": [
 		"tabs",
@@ -11,13 +17,13 @@
 
 	"commands": {
 		"add": {
-			"description": "Add current page",
+			"description": "Bookmark current page",
 			"suggested_key": {
 				"default": "Alt+W"
 			}
 		},
 		"readlater": {
-			"description": "Add current page to read",
+			"description": "Mark current as \"read later\"",
 			"suggested_key": {
 				"default": "Alt+R"
 			}
