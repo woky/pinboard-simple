@@ -2,8 +2,13 @@ FILES := \
 	generated/*.js \
 	manifest.json
 
+all:
+
 generated/%:
 	yarn run build
+
+zip: $(FILES)
+	apack output/archives/upload.zip $(FILES)
 
 .PHONY: sign
 .ONESHELL:
