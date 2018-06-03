@@ -23,7 +23,7 @@
 			}
 		},
 		"readLater": {
-			"description": "Mark current as \"read later\"",
+			"description": "Mark current page as \"read later\"",
 			"suggested_key": {
 				"default": "Alt+R"
 			}
