@@ -4,6 +4,8 @@ function createPinboardUrl(tab: chrome.tabs.Tab, command: string): string {
 	let url = `https://pinboard.in/add?url=${u}&title=${t}`;
 	if (command == 'readLater')
 		url += '&later=yes&noui=yes';
+	else
+		url += '&showtags=yes'
 	return url;
 }
 
