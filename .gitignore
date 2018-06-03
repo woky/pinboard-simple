@@ -1,5 +1,5 @@
+.vscode
 generated
 node_modules
+output
 yarn.lock
-.vscode
-pinboard-simple.zip
