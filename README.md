@@ -8,6 +8,10 @@ Simple extension for bookmarking to Pinboard.
 - No requests on background
 - Works with PDFs (no content scripts)
 
+## Install
+
+Firefox: https://addons.mozilla.org/en-US/firefox/addon/pinboard-simple
+
 ## Usage
 
 - `Alt-W`: Bookmark current page
