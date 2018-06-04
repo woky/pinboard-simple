@@ -1,8 +1,17 @@
 {
 	"manifest_version": 2,
 	"name": "Pinboard Simple",
-	"version": "1.1.9",
-	"description": "Bookmark to Pinboard with keyboard",
+	"version": "1.2.0",
+	"description": "Simple extension for bookmarking to Pinboard",
+	"icons": {
+		"16" : "generated/icon-16.png",
+		"24" : "generated/icon-24.png",
+		"32" : "generated/icon-32.png",
+		"48" : "generated/icon-48.png",
+		"64" : "generated/icon-64.png",
+		"96" : "generated/icon-96.png",
+		"128": "generated/icon-128.png"
+	},
 
 	"applications": {
 		"gecko": {
@@ -12,7 +21,10 @@
 
 	"permissions": [
 		"tabs",
-		"activeTab"
+		"activeTab",
+		"alarms",
+		"storage",
+		"https://api.pinboard.in/v1/*"
 	],
 
 	"commands": {
@@ -30,10 +42,20 @@
 		}
 	},
 
+	"browser_action": {
+		"default_icon": {
+			"16" : "generated/icon-16.png",
+			"24" : "generated/icon-24.png",
+			"32" : "generated/icon-32.png",
+			"48" : "generated/icon-48.png",
+			"64" : "generated/icon-64.png",
+			"96" : "generated/icon-96.png",
+			"128": "generated/icon-128.png"
+		}
+	},
+
 	"background": {
-		"scripts": [
-			"generated/background.js"
-		]
+		"page": "background.html"
 	},
 
 	"content_scripts": [
@@ -42,5 +64,9 @@
 			"js": [ "generated/content.js" ],
 			"run_at": "document_end"
 		}
-	]
+	],
+
+	"options_ui": {
+		"page": "options.html"
+	}
 }

@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<title>Pinboard Simple</title>
+		<style>
+			input[type="number"] {
+				text-align: right;
+			}
+			.settings {
+				display: grid;
+				grid-template-columns: max-content 500px;
+				grid-gap: 10px;
+				align-items: baseline;
+			}
+			.buttons {
+				grid-column: span 2;
+			}
+			td {
+				padding: 5px;
+				vertical-align: top;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Pinboard Simple</h1>
+
+		<div>
+			<h2>Options</h2>
+			<form class=settings>
+				<label for=apiToken>API token</label>
+				<span><input type=text id=apiToken required></span>
+
+				<label for=syncPeriod>Sync period</label>
+				<span><input type=number id=syncPeriod min=5 required> minutes</span>
+
+				<div class=buttons>
+					<button type=submit>Save & Resync</button>
+				</div>
+			</form>
+		</div>
+
+		<div>
+			<h2>Help</h2>
+			<div>
+				<h3>Keyboard Actions</h3>
+				<table class=keytable>
+					<tr>
+						<td><code>Alt-W</code></td>
+						<td>Bookmark current page</td>
+					</tr>
+					<tr>
+						<td><code>Alt-R</code></td>
+						<td>
+							<p>Toggle <i>Read Later</i> status of current page</p>
+							<p>If the bookmark doesn't have any tags, it will be deleted.</p>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<script src="generated/options.js"></script>
+	</body>
+</html>

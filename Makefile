@@ -1,13 +1,31 @@
 FILES := \
-	generated/*.js \
-	manifest.json
+	manifest.json \
+	background.html \
+	options.html \
+	generated/background.js \
+	generated/options.js \
+	generated/content.js \
+	generated/Pinboard.js \
+	generated/icon-16.png \
+	generated/icon-24.png \
+	generated/icon-32.png \
+	generated/icon-48.png \
+	generated/icon-64.png \
+	generated/icon-96.png \
+	generated/icon-128.png
 
-all:
+.PHONY: all
+all: $(FILES)
 
-generated/%:
+generated/%.js:
 	yarn run build
 
+generated/icon-%.png: pinboard.svg
+	inkscape -z -e $@ -w $* -h $* $<
+
+.PHONY: zip
 zip: $(FILES)
+	mkdir -p output/archives
 	apack output/archives/upload.zip $(FILES)
 
 .PHONY: sign
