@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Pinboard Simple",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "Simple extension for bookmarking to Pinboard",
 	"icons": {
 		"16" : "generated/icon-16.png",

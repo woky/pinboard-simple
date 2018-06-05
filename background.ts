@@ -16,6 +16,7 @@ let bookmarksByUrl = new Map<string, number>();
 let localUpdateTime = 0;
 let syncing = false;
 let addTabsToUrls = new Map<number, string>();
+let timeoutId: number;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -133,18 +134,24 @@ async function updateBookmark(url: string) {
 }
 
 function restartSync() {
-	chrome.alarms.clearAll();
+	if (timeoutId != null)
+		clearTimeout(timeoutId)
 	pb = null;
-	chrome.storage.local.get(settings, (newSettings: typeof settings) => {
+	chrome.storage.local.get(settings, async (newSettings: typeof settings) => {
 		settings = newSettings;
 		if (settings.apiToken != null && settings.syncPeriod >= 5) {
 			pb = new Pinboard(settings.apiToken);
-			chrome.alarms.create({ periodInMinutes: settings.syncPeriod });
+			await syncBookmarks();
+			timeoutId = setTimeout(syncBookmarks, settings.syncPeriod * 60 * 1000);
 		}
 	});
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+chrome.tabs.onRemoved.addListener(tabId => {
+	addTabsToUrls.delete(tabId);
+});
 
 chrome.runtime.onMessage.addListener((msg, sender) => {
 	switch (msg) {
@@ -175,7 +182,5 @@ chrome.browserAction.onClicked.addListener(tab => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 	updateTabBadge(tab);
 });
-
-chrome.alarms.onAlarm.addListener(syncBookmarks);
 
 restartSync();
