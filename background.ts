@@ -77,7 +77,7 @@ function bookmarkCurrentTab(command: string) {
 }
 
 function updateTabBadge(tab: chrome.tabs.Tab) {
-	if (!tab.url)
+	if (syncing || !tab.url)
 		return;
 	let flag = bookmarksByUrl.get(tab.url);
 	if (flag != null) {
@@ -85,8 +85,14 @@ function updateTabBadge(tab: chrome.tabs.Tab) {
 		chrome.browserAction.setBadgeText({ text: '✓', tabId: tab.id });
 		chrome.browserAction.setBadgeBackgroundColor({ color: color, tabId: tab.id });
 	}
-	else
-		chrome.browserAction.setBadgeText({ text: '', tabId: tab.id });
+}
+
+function updateTabBadges() {
+	chrome.browserAction.setBadgeText({ text: '' });
+	chrome.tabs.query({}, tabs => {
+		for (let tab of tabs)
+			updateTabBadge(tab);
+	});
 }
 
 function addBookmark(b: Bookmark) {
@@ -96,18 +102,13 @@ function addBookmark(b: Bookmark) {
 	bookmarksByUrl.set(b.href, flag);
 }
 
-function updateTabBadges() {
-	chrome.tabs.query({}, tabs => {
-		for (let tab of tabs)
-			updateTabBadge(tab);
-	});
-}
-
 async function syncBookmarks() {
 	if (syncing)
 		return;
 	syncing = true;
 	bookmarksByUrl.clear();
+	chrome.browserAction.setBadgeText({ text: 'S' });
+	chrome.browserAction.setBadgeBackgroundColor({ color: '#4285F4' });
 	try {
 		let remoteUpdateTime = await pb.lastUpdateTime();
 		if (remoteUpdateTime > localUpdateTime) {
@@ -150,20 +151,17 @@ function restartSync() {
 ////////////////////////////////////////////////////////////////////////////////
 
 chrome.tabs.onRemoved.addListener(tabId => {
-	addTabsToUrls.delete(tabId);
+	let url = addTabsToUrls.get(tabId);
+	if (url) {
+		addTabsToUrls.delete(tabId);
+		updateBookmark(url);
+	}
 });
 
 chrome.runtime.onMessage.addListener((msg, sender) => {
 	switch (msg) {
 		case 'closeAddTab':
-			let url = addTabsToUrls.get(sender.tab.id);
-			if (url) {
-				addTabsToUrls.delete(sender.tab.id);
-				chrome.tabs.remove(sender.tab.id);
-				updateBookmark(url);
-			}
-			else
-				console.error('Close from unknown tab. URL: ' + sender.tab.url);
+			chrome.tabs.remove(sender.tab.id);
 			break;
 		case 'restartSync':
 			restartSync();
